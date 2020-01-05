@@ -3,14 +3,23 @@ import { couples } from "./../utils";
 import styled from "@emotion/styled";
 
 const CoupleRow = styled.div({
+  width: "100%",
   display: "flex",
   alignItems: "center",
-  margin: 20
+  justifyContent: "space-around"
 });
 
 const CoupleDiv = styled.div({
-  width: '6em',
-  margin: '5px'
+  width: "5.5em",
+  margin: "5px"
+});
+
+const CoupleNameDiv = styled(CoupleDiv)({
+  fontSize: '80%',
+  display: "flex",
+  width: "30%",
+  justifyContent: "space-around",
+  flexWrap: "no-wrap"
 });
 
 export default () => {
@@ -26,15 +35,14 @@ export default () => {
               alt={`fbImg${couple[0].name}`}
             />
           </CoupleDiv>
-          <CoupleDiv style={{fontSize: 16}}>
-
-              <p>{couple[0].name}</p>
+          <CoupleNameDiv>
+            <p>{couple[0].name}</p>
 
             <span style={{ fontSize: 28 }} role="img" aria-label="heart-emoji">
               💗
             </span>
-              <p>{couple[1].name}</p>
-          </CoupleDiv>
+            <p>{couple[1].name}</p>
+          </CoupleNameDiv>
           <CoupleDiv>
             <img
               style={{ width: "100%", height: "auto", borderRadius: "100%" }}

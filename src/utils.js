@@ -49,3 +49,13 @@ export const mothers = [
 ];
 
 export const couples = fathers.map((father, i) => [father, mothers[i]])
+
+export const parents = couples => couples.map((couple, index) => ({
+  parentsId: index,
+  parents: `${couple[0] + ' & ' + couple[1]}`,
+  father: couple[0],
+  mother: couple[1],
+}))
+
+// export const dueDates = [{id: 0, dueDate: 17-7-2019}, {id: 1, dueDate: }]
+
