@@ -5,6 +5,8 @@ import styled from "@emotion/styled";
 import Couples from "./components/Couples";
 import Babies from "./components/Babies";
 import Home from "./components/Home";
+import BabyBet from './components/BabyBet'
+import HighScore from './components/HighScore'
 
 const Nav = styled.nav(() => ({
   padding: 32,
@@ -27,6 +29,7 @@ function App() {
             <NavItem to="/">Home</NavItem>
             <NavItem to="/couples">Couples</NavItem>
             <NavItem to="/babies">Babies</NavItem>
+            <NavItem to="/babybet">Babybet</NavItem>
           </Nav>
         </header>
         <main>
@@ -39,6 +42,12 @@ function App() {
             </Route>
             <Route path="/babies">
               <Babies />
+            </Route>
+            <Route path="/babybet">
+              <BabyBet />
+            </Route>
+            <Route path="/highscore">
+              <HighScore />
             </Route>
           </Switch>
         </main>
