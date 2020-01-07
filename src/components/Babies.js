@@ -2,6 +2,8 @@
 import React from "react";
 import { couples } from "./../utils";
 import styled from "@emotion/styled";
+import useBabies from './../hooks/useBabies'
+import { useStitchAuth } from '../context/StitchAuth'
 
 const CoupleRow = styled.li({
   display: "flex",
@@ -16,6 +18,8 @@ const ColumnField = styled.span({
 })
 
 export default () => {
+  const { currentUser } = useStitchAuth();
+  const babies = useBabies(currentUser.id)
   return (
     <div>
       <h1>Babies</h1>
@@ -40,6 +44,7 @@ export default () => {
           </CoupleRow>
         ))}
       </ul>
+      <pre>{JSON.stringify(babies,0,2)}</pre>
     </div>
   );
 };

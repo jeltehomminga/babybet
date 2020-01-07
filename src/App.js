@@ -5,8 +5,10 @@ import styled from "@emotion/styled";
 import Couples from "./components/Couples";
 import Babies from "./components/Babies";
 import Home from "./components/Home";
-import BabyBet from './components/BabyBet'
-import HighScore from './components/HighScore'
+import BabyBet from "./components/BabyBet";
+import HighScore from "./components/HighScore";
+import Login from "./components/Login";
+import { StitchAuthProvider, useStitchAuth } from "./context/StitchAuth";
 
 const Nav = styled.nav(() => ({
   padding: 32,
@@ -20,18 +22,24 @@ const NavItem = styled(Link)({
   color: "deepSkyBlue"
 });
 
-function App() {
+const AppUi = () => {
+    const {
+    isLoggedIn,
+    actions: { handleLogout }
+  } = useStitchAuth();
   return (
-    <Router>
-      <div className="App">
-        <header>
-          <Nav>
-            <NavItem to="/">Home</NavItem>
-            <NavItem to="/couples">Couples</NavItem>
-            <NavItem to="/babies">Babies</NavItem>
-            <NavItem to="/babybet">Babybet</NavItem>
-          </Nav>
-        </header>
+    <div className="App">
+      <header>
+        <Nav>
+          <NavItem to="/">Home</NavItem>
+          <NavItem to="/couples">Couples</NavItem>
+          <NavItem to="/babies">Babies</NavItem>
+          <NavItem to="/babybet">Babybet</NavItem>
+        </Nav>
+      </header>
+      {isLoggedIn && <button onClick={handleLogout}>Logout</button>}
+
+      {isLoggedIn ? (
         <main>
           <Switch>
             <Route exact path="/">
@@ -51,7 +59,19 @@ function App() {
             </Route>
           </Switch>
         </main>
-      </div>
+      ) : (
+        <Login />
+      )}
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <StitchAuthProvider>
+        <AppUi />
+      </StitchAuthProvider>
     </Router>
   );
 }
