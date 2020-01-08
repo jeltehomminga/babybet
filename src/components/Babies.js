@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from "react";
-import { couples } from "./../utils";
 import styled from "@emotion/styled";
 import useBabies from './../hooks/useBabies'
 import { useStitchAuth } from '../context/StitchAuth'
@@ -14,12 +13,12 @@ const CoupleRow = styled.li({
 
 const ColumnField = styled.span({
     color: 'deepSkyBlue',
-    width: '20%'
+    width: '30%',
 })
 
 export default () => {
   const { currentUser } = useStitchAuth();
-  const babies = useBabies(currentUser.id)
+  const { babiesState } = useBabies(currentUser.id)
   return (
     <div>
       <h1>Babies</h1>
@@ -28,23 +27,20 @@ export default () => {
           <ColumnField>Couple</ColumnField>
           <ColumnField>Name</ColumnField>
           <ColumnField>Due</ColumnField>
-          <ColumnField></ColumnField>
         </CoupleRow>
-        {couples.map((couple, index) => (
+        {babiesState && babiesState.map((baby, index) => (
           <CoupleRow key={index}>
-            <ColumnField>
+            <ColumnField style={{display: 'flex', justifyContent: 'space-between'}}>
               <span role="img" aria-label="baby-emoji">
                 👶🏼
               </span>{" "}
-              {couple[0].name + " & " + couple[1].name}
+              {baby.parents}
             </ColumnField>
-            <ColumnField >🤷🏼‍♂️</ColumnField>
-            <ColumnField >17-7</ColumnField>
+        <ColumnField >{baby.dueDate.toLocaleDateString('en-GB', { month: 'long', day: 'numeric' })}</ColumnField>
             <ColumnField >Baby Bet!</ColumnField>
           </CoupleRow>
         ))}
       </ul>
-      <pre>{JSON.stringify(babies,0,2)}</pre>
     </div>
   );
 };

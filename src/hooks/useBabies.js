@@ -7,7 +7,7 @@ const useBabies = userId => {
     useEffect(() => {
         const loadBabies = async () => {
             const babiesData = await babies.find({}, { limit: 1000 }).asArray();
-            setBabiesState({babiesData})
+            setBabiesState(babiesData)
           };
 
         loadBabies();
@@ -16,8 +16,7 @@ const useBabies = userId => {
     const addBaby = async babyData => {
         const baby = { babyData, owner_id: userId}
         const result = await babies.insertOne(baby)
-        console.log(result)
-        setBabiesState(babiesState => ({...babiesState, result}))
+        setBabiesState(babiesState => ([...babiesState, result]))
     } 
 
     const removeBaby = async babyId => {

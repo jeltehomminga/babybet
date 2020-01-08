@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import "./App.css";
 import styled from "@emotion/styled";
-import Couples from "./components/Couples";
+// import Couples from "./components/Couples";
 import Babies from "./components/Babies";
 import Home from "./components/Home";
 import BabyBet from "./components/BabyBet";
@@ -22,6 +22,7 @@ const NavItem = styled(Link)({
   color: "deepSkyBlue"
 });
 
+
 const AppUi = () => {
     const {
     isLoggedIn,
@@ -32,12 +33,12 @@ const AppUi = () => {
       <header>
         <Nav>
           <NavItem to="/">Home</NavItem>
-          <NavItem to="/couples">Couples</NavItem>
+          {/* <NavItem to="/couples">Couples</NavItem> */}
           <NavItem to="/babies">Babies</NavItem>
           <NavItem to="/babybet">Babybet</NavItem>
         </Nav>
       </header>
-      {isLoggedIn && <button onClick={handleLogout}>Logout</button>}
+      {/* {isLoggedIn && } */}
 
       {isLoggedIn ? (
         <main>
@@ -45,19 +46,23 @@ const AppUi = () => {
             <Route exact path="/">
               <Home />
             </Route>
-            <Route path="/couples">
+            {/* <Route path="/couples">
               <Couples />
-            </Route>
+            </Route> */}
             <Route path="/babies">
               <Babies />
             </Route>
-            <Route path="/babybet">
+            {/* <Route path="/babybet">
+              <BabyBet />
+            </Route> */}
+            <Route path="/babybet/:baby">
               <BabyBet />
             </Route>
             <Route path="/highscore">
               <HighScore />
             </Route>
           </Switch>
+          <button onClick={handleLogout}>Logout</button>
         </main>
       ) : (
         <Login />
