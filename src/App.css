@@ -12,3 +12,6 @@
   color: #61dafb;
 }
 
+summary::-webkit-details-marker {
+  display: none;
+}

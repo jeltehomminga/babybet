@@ -1,44 +1,27 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import styled from "@emotion/styled";
-// import Couples from "./components/Couples";
 import Babies from "./components/Babies";
-import Home from "./components/Home";
 import BabyBet from "./components/BabyBet";
 import HighScore from "./components/HighScore";
+import Home from "./components/Home";
 import Login from "./components/Login";
+import Parents from "./components/Parents";
 import { StitchAuthProvider, useStitchAuth } from "./context/StitchAuth";
+import Nav from './components/Nav'
 
-const Nav = styled.nav(() => ({
-  padding: 32,
-  color: "deepSkyBlue",
-  display: "flex",
-  justifyContent: "space-around",
-  alignItems: "flex-start"
-}));
-
-const NavItem = styled(Link)({
-  color: "deepSkyBlue"
-});
 
 
 const AppUi = () => {
-    const {
+  const {
     isLoggedIn,
     actions: { handleLogout }
   } = useStitchAuth();
   return (
     <div className="App">
       <header>
-        <Nav>
-          <NavItem to="/">Home</NavItem>
-          {/* <NavItem to="/couples">Couples</NavItem> */}
-          <NavItem to="/babies">Babies</NavItem>
-          <NavItem to="/babybet">Babybet</NavItem>
-        </Nav>
+<Nav />
       </header>
-      {/* {isLoggedIn && } */}
 
       {isLoggedIn ? (
         <main>
@@ -46,11 +29,11 @@ const AppUi = () => {
             <Route exact path="/">
               <Home />
             </Route>
-            {/* <Route path="/couples">
-              <Couples />
-            </Route> */}
-            <Route path="/babies">
+            <Route exact path="/babies">
               <Babies />
+            </Route>
+            <Route path="/babies/parents">
+              <Parents />
             </Route>
             {/* <Route path="/babybet">
               <BabyBet />

@@ -1,5 +1,5 @@
 import React from "react";
-import { couples } from "./../utils";
+import { couples } from "../utils";
 import styled from "@emotion/styled";
 
 const CoupleRow = styled.div({
@@ -53,5 +53,6 @@ export default () => {
         </CoupleRow>
       ))}
     </div>
+    
   );
 };
