@@ -25,7 +25,6 @@ const CoupleNameDiv = styled(CoupleDiv)({
 export default () => {
   return (
     <div>
-      <h1>Couples</h1>
       {couples.map((couple, index) => (
         <CoupleRow key={index}>
           <CoupleDiv>

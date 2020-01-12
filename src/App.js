@@ -8,9 +8,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Parents from "./components/Parents";
 import { StitchAuthProvider, useStitchAuth } from "./context/StitchAuth";
-import Nav from './components/Nav'
-
-
+import Nav from "./components/Nav";
 
 const AppUi = () => {
   const {
@@ -20,7 +18,7 @@ const AppUi = () => {
   return (
     <div className="App">
       <header>
-<Nav />
+        <Nav />
       </header>
 
       {isLoggedIn ? (
@@ -35,13 +33,10 @@ const AppUi = () => {
             <Route path="/babies/parents">
               <Parents />
             </Route>
-            {/* <Route path="/babybet">
-              <BabyBet />
-            </Route> */}
-            <Route path="/babybet/:baby">
+            <Route exact path="/babybet">
               <BabyBet />
             </Route>
-            <Route path="/highscore">
+            <Route path="/babybet/highscore">
               <HighScore />
             </Route>
           </Switch>
@@ -54,14 +49,11 @@ const AppUi = () => {
   );
 };
 
-function App() {
-  return (
+export default () => (
     <Router>
       <StitchAuthProvider>
         <AppUi />
       </StitchAuthProvider>
     </Router>
   );
-}
 
-export default App;

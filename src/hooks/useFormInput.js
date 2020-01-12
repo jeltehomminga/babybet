@@ -4,7 +4,7 @@ import iconerror from '../../src/iconerror.svg'
 const useFormInput = (description, initialValue = '') => {
   const [value, setValue] = useState(initialValue)
   const [validObj, setValidObj] = useState({})
-  const placeholderText = `Enter your ${description}`
+  const placeholderText = `Enter ${description}`
 
 
   const handleBlur = e => {
@@ -15,8 +15,9 @@ const useFormInput = (description, initialValue = '') => {
 
   const handleChange = e => {
     setValidObj({})
-    const newValue =
-      e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    debugger
+    const newValue = e.target.value
+      
     setValue(newValue)
   }
 
