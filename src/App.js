@@ -33,11 +33,14 @@ const AppUi = () => {
             <Route path="/babies/parents">
               <Parents />
             </Route>
-            <Route exact path="/babybet">
+            {/* <Route exact path="/babybet">
               <BabyBet />
-            </Route>
+            </Route> */}
             <Route path="/babybet/highscore">
               <HighScore />
+            </Route>
+            <Route path="/babybet/newbet">
+              <BabyBet />
             </Route>
           </Switch>
           <button onClick={handleLogout}>Logout</button>

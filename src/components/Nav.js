@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
-import React, { useEffect, useState } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Nav = styled.nav(() => ({
   padding: 32,
   color: "deepSkyBlue",
   display: "flex",
   justifyContent: "space-around",
-  alignItems: "flex-start"
+  alignItems: "baseline"
 }));
 
 const NavItem = styled(Link)({
@@ -16,25 +16,21 @@ const NavItem = styled(Link)({
 
 const NavDetails = ({ headPath = "/", headName = "Home", subPaths = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const onClick = { onClick: () => setIsOpen(!isOpen) };
-
-  let match = useRouteMatch({
-    path: headPath
-  });
-
-  useEffect(() => {
-    !match && setIsOpen(false);
-  }, [match]);
+  const onClick = () => setIsOpen(!isOpen);
 
   return subPaths.length > 0 ? (
     <details open={isOpen}>
-      <summary {...onClick}>
-        <NavItem to={headPath}>{headName}</NavItem>
+      <summary onClick={onClick}>
+        <p>{headName}</p>
       </summary>
       <ul style={{ listStyleType: "none" }}>
+        <li key={headPath}>
+          <NavItem to={headPath}>{headName}</NavItem>
+        </li>
+
         {subPaths.map(({ name, path }) => (
           <li key={path}>
-            <NavItem to={`${headPath}${path}`} >{name}</NavItem>
+            <NavItem to={`${headPath}${path}`}>{name}</NavItem>
           </li>
         ))}
       </ul>
@@ -58,7 +54,7 @@ export default () => (
     <NavDetails
       headPath="/babybet"
       headName="Babybet"
-      subPaths={[{ name: "Highscore", path: "/highscore" }]}
+      subPaths={[{ name: "New bet", path: "/newbet" },{ name: "Highscore", path: "/highscore" }]}
     />
   </Nav>
 );

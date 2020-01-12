@@ -15,9 +15,7 @@ const useFormInput = (description, initialValue = '') => {
 
   const handleChange = e => {
     setValidObj({})
-    debugger
     const newValue = e.target.value
-      
     setValue(newValue)
   }
 

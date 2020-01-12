@@ -3,6 +3,8 @@ import React from "react";
 import useFormInput from "./../hooks/useFormInput";
 import useBabies from "../hooks/useBabies";
 import { useStitchAuth } from "../context/StitchAuth";
+import useBabyBets from "../hooks/useBabyBets";
+import { BSON } from 'mongodb-stitch-browser-sdk';
 
 const Form = styled.form({
   margin: "0 auto",
@@ -30,7 +32,6 @@ const Label = styled.label({
 
 export default () => {
   const parentsId = useFormInput('parentsId', '')
-  const firstName = useFormInput("first name");
   const babyName = useFormInput("baby name");
   const gender = useFormInput("gender");
   const weight = useFormInput("weight", 3.6);
@@ -40,12 +41,20 @@ export default () => {
   );
   const { currentUser } = useStitchAuth();
   const { babiesState } = useBabies(currentUser.id);
+  const { addBabyBet } = useBabyBets(currentUser.id)
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(e);
-    console.log(babiesState);
+    const babyBetData = {
+      babyId : new BSON.ObjectId(parentsId.attributes.value),
+      babyName: babyName.attributes.value,
+      gender: gender.attributes.value,
+      weight: weight.attributes.value,
+      birthDate: new Date(birthDate.attributes.value)
+    }
+    addBabyBet(babyBetData)
   };
+
   return (
     <div>
       <Form onSubmit={handleSubmit}>
@@ -61,10 +70,10 @@ export default () => {
             </select>
           </Label>
           <legend>Guess the baby</legend>
-          <Label>
+          {/* <Label>
             First name
             <input name="firstName" type="text" {...firstName.attributes} />
-          </Label>
+          </Label> */}
           <Label>
             Baby Name
             <input name="babyName" type="text" {...babyName.attributes} />

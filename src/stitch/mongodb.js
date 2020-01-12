@@ -9,5 +9,6 @@ const mongoClient = app.getServiceClient(
 
 // TODO: Instantiate a collection handle for todo.items
 const babies = mongoClient.db("babyBetDb").collection("babies");
+const babybets = mongoClient.db("babyBetDb").collection("babybets");
 
-export { babies };
+export { babies, babybets };
