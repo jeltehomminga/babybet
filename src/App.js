@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Babies from "./components/Babies";
 import BabyBet from "./components/BabyBet";
+import BabyBets from './components/BabyBets'
 import HighScore from "./components/HighScore";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -33,13 +34,13 @@ const AppUi = () => {
             <Route path="/babies/parents">
               <Parents />
             </Route>
-            {/* <Route exact path="/babybet">
-              <BabyBet />
-            </Route> */}
-            <Route path="/babybet/highscore">
+            <Route exact path="/babybets">
+              <BabyBets />
+            </Route>
+            <Route path="/babybets/highscore">
               <HighScore />
             </Route>
-            <Route path="/babybet/newbet">
+            <Route path={"/babybets/newbet/:babyid"}>
               <BabyBet />
             </Route>
           </Switch>

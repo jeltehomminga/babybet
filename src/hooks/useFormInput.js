@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import iconerror from '../../src/iconerror.svg'
+import { useState } from 'react'
 
 const useFormInput = (description, initialValue = '') => {
   const [value, setValue] = useState(initialValue)
@@ -19,16 +18,6 @@ const useFormInput = (description, initialValue = '') => {
     setValue(newValue)
   }
 
-
-  const invalidElementOutput = validObj.validationMessage ? (
-    <>
-      <img src={iconerror} alt='invalid-icon'  />
-      <label>{validObj.validationMessage}</label>
-    </>
-  ) : (
-    ''
-  )
-
   const attributes = {
     value,
     onChange: handleChange,
@@ -42,7 +31,6 @@ const useFormInput = (description, initialValue = '') => {
     setValue,
     validationMessage: validObj.validationMessage,
     valid: validObj.valid,
-    invalidElementOutput: invalidElementOutput
   }
 }
 

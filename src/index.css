@@ -15,3 +15,14 @@ code {
 ul {
   padding: 0;
 }
+
+input[type=text], input[type=number], input[type=date] , select {
+  font-size: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 200px;
+}
+
+select {
+  width: 224px;
+}

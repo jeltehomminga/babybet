@@ -52,9 +52,9 @@ export default () => (
       ]}
     />
     <NavDetails
-      headPath="/babybet"
-      headName="Babybet"
-      subPaths={[{ name: "New bet", path: "/newbet" },{ name: "Highscore", path: "/highscore" }]}
+      headPath="/babybets"
+      headName="Babybets"
+      subPaths={[{ name: "New bet", path: "/newbet/new" },{ name: "Highscore", path: "/highscore" }]}
     />
   </Nav>
 );
