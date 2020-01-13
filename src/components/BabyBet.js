@@ -47,6 +47,8 @@ export default () => {
     "birth date",
     new Date().toJSON().slice(0, 10)
   );
+
+  
   const { currentUser } = useStitchAuth();
   const { babiesState } = useBabies(currentUser.id);
   const { addBabyBet } = useBabyBets(currentUser.id);
