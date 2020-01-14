@@ -1,10 +1,14 @@
-import React, { useState, useContext, useMemo} from "react";
+import React, { useEffect, useState, useContext, useMemo} from "react";
 import PropTypes from "prop-types";
 import {
   hasLoggedInUser,
   loginAnonymous,
   logoutCurrentUser,
-  getCurrentUser
+  loginGoogle,
+  getCurrentUser,
+  addAuthenticationListener,
+  removeAuthenticationListener,
+  handleOAuthRedirects
 } from "./../stitch/authentication";
 
 const StitchAuthContext = React.createContext();
@@ -24,18 +28,46 @@ export const StitchAuthProvider = ({children}) => {
     currentUser: getCurrentUser()
   });
 
+  useEffect(() => {
+    const authListener = {
+        onUserLoggedIn: (auth, loggedInUser) => {
+        if (loggedInUser) {
+            setAuthState(authState => ({
+            ...authState,
+            isLoggedIn: true,
+            currentUser: loggedInUser,
+            }));
+        }
+        },
+        onUserLoggedOut: (auth, loggedOutUser) => {
+        setAuthState(authState => ({
+            ...authState,
+            isLoggedIn: false,
+            currentUser: null,
+        }));
+        }
+    };
+    addAuthenticationListener(authListener);
+    handleOAuthRedirects();
+    setAuthState(state => ({ ...state}));
+    return () => {
+        removeAuthenticationListener(authListener);
+    };
+}, []);
+
+
+
+
   // Authentication Actions
-  const handleAnonymousLogin = async () => {
-    const { isLoggedIn } = authState;
-    if (!isLoggedIn) {
-      const loggedInUser = await loginAnonymous();
-      setAuthState({
-        ...authState,
-        isLoggedIn: true,
-        currentUser: loggedInUser
-      });
+  const handleLogin = async (provider) => {
+    if (!authState.isLoggedIn) {
+        switch(provider) {
+        case "anonymous": return loginAnonymous()
+        case "google": return loginGoogle()
+        default: {}
+        }
     }
-  };
+  }
   
   const handleLogout = async () => {
     const { isLoggedIn } = authState;
@@ -54,10 +86,12 @@ export const StitchAuthProvider = ({children}) => {
   const authInfo = useMemo(
     () => {
       const { isLoggedIn, currentUser } = authState;
+      // TODO: remove logger
+      console.log(currentUser)
       const value = {
         isLoggedIn,
         currentUser,
-        actions: { handleAnonymousLogin, handleLogout }
+        actions: { handleLogin, handleLogout }
       };
       return value;
     },
