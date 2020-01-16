@@ -8,5 +8,6 @@ const mongoClient = app.getServiceClient(
 
 const babies = mongoClient.db("babyBetDb").collection("babies");
 const babybets = mongoClient.db("babyBetDb").collection("babybets");
+const users = mongoClient.db("babyBetDb").collection("users");
 
-export { babies, babybets };
+export { babies, babybets, users };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useMemo} from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 import {
   hasLoggedInUser,
@@ -10,6 +10,7 @@ import {
   removeAuthenticationListener,
   handleOAuthRedirects
 } from "./../stitch/authentication";
+import { users } from "../stitch/mongodb";
 
 const StitchAuthContext = React.createContext();
 
@@ -21,8 +22,7 @@ export const useStitchAuth = () => {
   return context;
 };
 
-
-export const StitchAuthProvider = ({children}) => {
+export const StitchAuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     isLoggedIn: hasLoggedInUser(),
     currentUser: getCurrentUser()
@@ -30,45 +30,60 @@ export const StitchAuthProvider = ({children}) => {
 
   useEffect(() => {
     const authListener = {
-        onUserLoggedIn: (auth, loggedInUser) => {
+      onUserLoggedIn: (auth, loggedInUser) => {
         if (loggedInUser) {
-            setAuthState(authState => ({
+          setAuthState(authState => ({
             ...authState,
             isLoggedIn: true,
-            currentUser: loggedInUser,
-            }));
+            currentUser: loggedInUser
+          }));
+          console.log("authState", authState);
+          console.log("currentUser", loggedInUser);
+          if (!loggedInUser.customData.id) {
+            try {
+              users.insertOne({
+                owner_id: loggedInUser.id,
+                ...loggedInUser.profile.data
+              });
+            } catch (error) {
+              console.error("aaaaah Ik fucked up!", error);
+            }
+            console.log(loggedInUser.customData);
+          }
         }
-        },
-        onUserLoggedOut: (auth, loggedOutUser) => {
+      },
+      onUserLoggedOut: (auth, loggedOutUser) => {
         setAuthState(authState => ({
-            ...authState,
-            isLoggedIn: false,
-            currentUser: null,
+          ...authState,
+          isLoggedIn: false,
+          currentUser: null
         }));
-        }
+      }
     };
     addAuthenticationListener(authListener);
     handleOAuthRedirects();
-    setAuthState(state => ({ ...state}));
+    setAuthState(state => ({ ...state }));
     return () => {
-        removeAuthenticationListener(authListener);
+      removeAuthenticationListener(authListener);
     };
-}, []);
 
-
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Authentication Actions
-  const handleLogin = async (provider) => {
+  const handleLogin = async provider => {
     if (!authState.isLoggedIn) {
-        switch(provider) {
-        case "anonymous": return loginAnonymous()
-        case "google": return loginGoogle()
-        default: {}
+      switch (provider) {
+        case "anonymous":
+          return loginAnonymous();
+        case "google":
+          return loginGoogle();
+        default: {
         }
+      }
     }
-  }
-  
+  };
+
   const handleLogout = async () => {
     const { isLoggedIn } = authState;
     if (isLoggedIn) {
@@ -87,7 +102,7 @@ export const StitchAuthProvider = ({children}) => {
     () => {
       const { isLoggedIn, currentUser } = authState;
       // TODO: remove logger
-      console.log(currentUser)
+      console.log(currentUser);
       const value = {
         isLoggedIn,
         currentUser,
@@ -98,12 +113,13 @@ export const StitchAuthProvider = ({children}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [authState.isLoggedIn]
   );
+
   return (
     <StitchAuthContext.Provider value={authInfo}>
       {children}
     </StitchAuthContext.Provider>
   );
-}
+};
 StitchAuthProvider.propTypes = {
   children: PropTypes.element
 };
