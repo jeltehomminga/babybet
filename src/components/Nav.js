@@ -7,12 +7,17 @@ const Nav = styled.nav(() => ({
   color: "deepSkyBlue",
   display: "flex",
   justifyContent: "space-around",
-  alignItems: "baseline"
+  alignItems: "baseline",
+
+  "@media (max-width: 420px)": {
+    flexWrap: 'wrap'
+  }
 }));
 
 const NavItem = styled(Link)({
   position: "relative",
-  color: "deepSkyBlue"
+  color: "deepSkyBlue",
+
 });
 
 const Ul = styled.ul({
@@ -100,6 +105,14 @@ export default () => {
           { name: "New bet", path: "/newbet/new" },
           { name: "Highscore", path: "/highscore" }
         ]}
+      />
+            <NavDetails
+        index={4}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        headPath="/profile"
+        headName="Profile"
+
       />
     </Nav>
   );

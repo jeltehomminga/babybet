@@ -2,37 +2,16 @@ import styled from "@emotion/styled";
 import { BSON } from "mongodb-stitch-browser-sdk";
 import React, { useEffect } from "react";
 import { useHistory, useParams } from "react-router";
+import { Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { useStitchAuth } from "../context/StitchAuth";
 import useBabies from "../hooks/useBabies";
 import useBabyBets from "../hooks/useBabyBets";
 import useFormInput from "./../hooks/useFormInput";
 
-const Form = styled.form({
-  margin: "0 auto",
-  display: "flex",
-  flexDirection: "column",
-  maxWidth: "500px",
-  alignSelf: "center"
-});
-
-const Label = styled.label({
-  display: "flex",
-  justifyContent: "space-between",
-  position: "relative",
-  margin: 15,
-  alignItems: "center",
+const InputStyled = styled(Input)({
+  width: "350px",
   "@media (max-width: 420px)": {
-    flexDirection: "column"
-  }
-});
-
-const LabelHeader = styled.span({
-  width: "50%",
-  textAlign: "left",
-  "@media (max-width: 420px)": {
-    marginBottom: 10,
-    textAlign: "center",
-    width: "100%"
+    width: "230px"
   }
 });
 
@@ -48,7 +27,6 @@ export default () => {
     new Date().toJSON().slice(0, 10)
   );
 
-  
   const { currentUser } = useStitchAuth();
   const { babiesState } = useBabies(currentUser.id);
   const { addBabyBet } = useBabyBets(currentUser.id);
@@ -71,12 +49,11 @@ export default () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <legend>Guess the baby</legend>
-      <fieldset>
-        <Label>
-          <LabelHeader>Parents</LabelHeader>
-          <select {...parentsId.attributes}>
+    <Container style={{ display: "flex", justifyContent: "center" }}>
+      <Form onSubmit={handleSubmit}>
+        <FormGroup>
+          <Label>Parents</Label>
+          <InputStyled type="select" {...parentsId.attributes}>
             <option value={""} key={""}>
               Select the parents
             </option>
@@ -86,48 +63,57 @@ export default () => {
                   {parents}
                 </option>
               ))}
-          </select>
-        </Label>
-        <Label>
-          <LabelHeader>Baby Name</LabelHeader>
-          <input name="babyName" type="text" {...babyName.attributes} />
-        </Label>
-        <Label>
-          <LabelHeader>Gender</LabelHeader>
-          <div>
-            <label>
-              <span style={{ marginRight: 10 }}>Boy</span>
-              <input
+          </InputStyled>
+        </FormGroup>
+
+        <FormGroup>
+          <Label for="babyname">Baby Name</Label>
+          <InputStyled
+            name="babyName"
+            id="babyname"
+            type="text"
+            {...babyName.attributes}
+          />
+        </FormGroup>
+
+        <FormGroup tag="fieldset">
+          <legend>Gender</legend>
+          <FormGroup check>
+            <Label check>
+              <InputStyled
                 name="gender"
                 type="radio"
                 {...gender.attributes}
                 value="boy"
                 checked={gender.attributes.value === "boy"}
               />
-            </label>
-            <label>
-              <span style={{ marginRight: 10, marginLeft: 20 }}>Girl</span>
-              <input
+              Boy
+            </Label>
+          </FormGroup>
+          <FormGroup check>
+            <Label>
+              <InputStyled
                 name="gender"
                 type="radio"
                 {...gender.attributes}
                 value="girl"
                 checked={gender.attributes.value === "girl"}
               />
-            </label>
-          </div>
-        </Label>
-        <Label>
-          <LabelHeader>Weight in kg</LabelHeader>
-          <input {...weight.attributes} name="weight" type="number" />
-        </Label>
-        <Label>
-          <LabelHeader>Day of birth</LabelHeader>
-          <input type="date" {...birthDate.attributes} name="birthDate"></input>
-        </Label>
-      </fieldset>
+              Girl
+            </Label>
+          </FormGroup>
+        </FormGroup>
+        <FormGroup>
+          <Label>Weight in kg</Label>
+          <InputStyled {...weight.attributes} name="weight" type="number" />
+        </FormGroup>
+        <FormGroup>
+          <Label>Day of birth</Label>
+          <InputStyled type="date" {...birthDate.attributes} name="birthDate" />
+        </FormGroup>
 
-      <input type="submit" value="Submit" />
-    </Form>
+        <InputStyled type="submit" value="Submit" />
+      </Form>
+    </Container>
   );
 };
