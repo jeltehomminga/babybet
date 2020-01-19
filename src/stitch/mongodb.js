@@ -1,4 +1,4 @@
-import { RemoteMongoClient } from "mongodb-stitch-browser-sdk";
+import { RemoteMongoClient, UserPasswordAuthProviderClient } from "mongodb-stitch-browser-sdk";
 import { app } from "./app";
 
 const mongoClient = app.getServiceClient(
@@ -10,4 +10,8 @@ const babies = mongoClient.db("babyBetDb").collection("babies");
 const babybets = mongoClient.db("babyBetDb").collection("babybets");
 const users = mongoClient.db("babyBetDb").collection("users");
 
-export { babies, babybets, users };
+const emailPasswordClient = app.auth.getProviderClient(UserPasswordAuthProviderClient.factory)
+
+
+
+export { babies, babybets, users, emailPasswordClient };

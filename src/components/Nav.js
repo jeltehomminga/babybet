@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useStitchAuth } from "../context/StitchAuth";
 
 const Nav = styled.nav(() => ({
   padding: 32,
@@ -41,7 +42,7 @@ const NavDetails = ({
   subPaths = [],
   isOpen,
   setIsOpen,
-  index
+  index,
 }) => {
   const handleClick = e => {
     e.preventDefault();
@@ -67,9 +68,9 @@ const NavDetails = ({
             <NavItem to={headPath}>{headName}</NavItem>
           </li>
 
-          {subPaths.map(({ name, path }) => (
+          {subPaths.map(({ name, path, onClick }) => (
             <li key={path}>
-              <NavItem to={`${headPath}${path}`}>{name}</NavItem>
+              <NavItem to={`${headPath}${path}`} onClick={onClick}>{name}</NavItem>
             </li>
           ))}
         </Ul>
@@ -80,10 +81,11 @@ const NavDetails = ({
 
 export default () => {
   const [isOpen, setIsOpen] = useState(null);
+  const {actions : {handleLogout} } = useStitchAuth();
 
   return (
     <Nav>
-      <NavDetails isOpen={isOpen} setIsOpen={setIsOpen} index={1} />
+      {/* <NavDetails isOpen={isOpen} setIsOpen={setIsOpen} index={1} /> */}
       <NavDetails
         index={2}
         isOpen={isOpen}
@@ -112,6 +114,8 @@ export default () => {
         setIsOpen={setIsOpen}
         headPath="/profile"
         headName="Profile"
+        // eslint-disable-next-line no-sequences
+        subPaths={[ {name: "Log Out", path: '', onClick: e => (e.preventDefault(e), handleLogout()) }]}
 
       />
     </Nav>

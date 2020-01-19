@@ -1,56 +1,45 @@
 import React from "react";
-import styled from "@emotion/styled";
 import useBabies from "./../hooks/useBabies";
 import { useStitchAuth } from "../context/StitchAuth";
 import { Link } from "react-router-dom";
-
-const CoupleRow = styled.li({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-around",
-  margin: 20
-});
-
-const ColumnField = styled.span({
-  color: "deepSkyBlue",
-  width: "30%"
-});
+import { Table } from "reactstrap";
 
 export default () => {
   const { currentUser } = useStitchAuth();
   const { babiesState } = useBabies(currentUser.id);
   return (
-    <div>
-      <h1>Babies</h1>
-      <ul>
-        <CoupleRow>
-          <ColumnField>Couple</ColumnField>
-          <ColumnField>Name</ColumnField>
-          <ColumnField>Due</ColumnField>
-        </CoupleRow>
+    <Table borderless className="text-white">
+      <thead>
+        <tr>
+          <th>Parents</th>
+          <th>Due</th>
+          <th>Guess!</th>
+        </tr>
+      </thead>
+      <tbody>
         {babiesState &&
           babiesState.map((baby, index) => (
-            <CoupleRow key={index}>
-              <ColumnField
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <span role="img" aria-label="baby-emoji">
-                  👶🏼
-                </span>{" "}
+            <tr key={index}>
+              <td style={{ display: "flex", justifyContent: "space-between" }}>
                 {baby.parents}
-              </ColumnField>
-              <ColumnField>
+              </td>
+              <td>
                 {baby.dueDate.toLocaleDateString("en-GB", {
                   month: "long",
                   day: "numeric"
                 })}
-              </ColumnField>
-              <ColumnField>
-                <Link to={`babybets/newbet/${baby._id}`}>Baby Bet!</Link>
-              </ColumnField>
-            </CoupleRow>
+              </td>
+              <td>
+                <Link
+                  to={`babybets/newbet/${baby._id}`}
+                  style={{ color: "white" }}
+                >
+                  Baby Guess!
+                </Link>
+              </td>
+            </tr>
           ))}
-      </ul>
-    </div>
+      </tbody>
+    </Table>
   );
 };

@@ -1,17 +1,26 @@
 import React from "react";
 import { useStitchAuth } from "../context/StitchAuth";
 import useBabyBets from "../hooks/useBabyBets";
+import { Table } from 'reactstrap'
+import styled from "@emotion/styled";
+
+
+const TableStyled = styled(Table)({
+
+  "@media (max-width: 430px)": {
+    fontSize: "70%"
+  }
+});
 
 export default () => {
   const { currentUser } = useStitchAuth();
   const { babyBetsState } = useBabyBets(currentUser.id);
   return (
-    <div>
-      <h1>All Bets</h1>
-      <table style={{margin: 'auto'}}>
+      <TableStyled borderless className="text-white">
         <thead>
           <tr>
-            <th>Baby name</th>
+            <th>Bet by</th>
+            <th>name</th>
             <th>Gender</th>
             <th>Weight</th>
           </tr>
@@ -20,14 +29,14 @@ export default () => {
           {babyBetsState &&
             babyBetsState.map(babybet => (
               <tr key={JSON.stringify(babybet._id)}>
+                <td>Anonymous</td>
                 <td>{babybet.babyName}</td>
                 <td>{babybet.gender}</td>
                 <td>{babybet.weight}</td>
               </tr>
             ))}
         </tbody>
-      </table>
-      {/* <pre>{JSON.stringify(babyBetsState, 0, 2)}</pre> */}
-    </div>
+      </TableStyled>
+      // <pre className="text-white">{JSON.stringify(babyBetsState, 0, 2)}</pre>
   );
 };

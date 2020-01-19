@@ -14,18 +14,16 @@ import Profile from "./components/Profile";
 import { Container } from "reactstrap";
 
 const AppUi = () => {
-  const {
-    isLoggedIn,
-    actions: { handleLogout }
-  } = useStitchAuth();
+  const { isLoggedIn } = useStitchAuth();
   return (
     <div className="App">
-      <header>
-        <Nav />
-      </header>
-
+      {isLoggedIn && (
+        <header>
+          <Nav />
+        </header>
+      )}
       <main>
-        <Container style={{display: 'flex', justifyContent: 'center'}}>
+        <Container style={{ display: "flex", justifyContent: "center" }}>
           {isLoggedIn ? (
             <Switch>
               <Route exact path="/">

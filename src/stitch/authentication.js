@@ -1,4 +1,4 @@
-import { AnonymousCredential, GoogleRedirectCredential } from "mongodb-stitch-browser-sdk";
+import { AnonymousCredential, GoogleRedirectCredential, UserPasswordAuthProviderClient, UserPasswordCredential  } from "mongodb-stitch-browser-sdk";
 import { app } from "./app.js";
 
 export function loginAnonymous() {
@@ -39,3 +39,33 @@ export function handleOAuthRedirects() {
       return app.auth.handleRedirectResult();
   }
 };
+
+
+// Manual email password login without OAuth Provider
+
+export const loginEmailPassword = async (email, password) => {
+  const credential = new UserPasswordCredential(email, password)
+  return await app.auth.loginWithCredential(credential)
+}
+
+const getEmailPasswordClient = () => app.auth.getProviderClient(UserPasswordAuthProviderClient.factory)
+
+export const registerEmailPasswordUser = async (email, password) => {
+  const emailPasswordAuth = getEmailPasswordClient()
+  return await emailPasswordAuth.registerWithEmail(email, password)
+}
+
+export async function resendConfirmationEmail(email) {
+  const emailPasswordAuth = getEmailPasswordClient();
+  return await emailPasswordAuth.resendConfirmationEmail(email);
+}
+
+
+export async function confirmEmailPasswordUser() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+  const tokenId = urlParams.get("tokenId");
+  const emailPasswordAuth = getEmailPasswordClient();
+  return await emailPasswordAuth.confirmUser(token, tokenId);
+}
+

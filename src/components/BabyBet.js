@@ -9,9 +9,9 @@ import useBabyBets from "../hooks/useBabyBets";
 import useFormInput from "./../hooks/useFormInput";
 
 const InputStyled = styled(Input)({
-  width: "350px",
-  "@media (max-width: 420px)": {
-    width: "230px"
+  width: "400px",
+  "@media (max-width: 430px)": {
+    width: "260px"
   }
 });
 
