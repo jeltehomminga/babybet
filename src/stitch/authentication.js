@@ -45,12 +45,14 @@ export function handleOAuthRedirects() {
 
 export const loginEmailPassword = async (email, password) => {
   const credential = new UserPasswordCredential(email, password)
+  debugger
   return await app.auth.loginWithCredential(credential)
 }
 
 const getEmailPasswordClient = () => app.auth.getProviderClient(UserPasswordAuthProviderClient.factory)
 
 export const registerEmailPasswordUser = async (email, password) => {
+  debugger
   const emailPasswordAuth = getEmailPasswordClient()
   return await emailPasswordAuth.registerWithEmail(email, password)
 }
@@ -63,8 +65,10 @@ export async function resendConfirmationEmail(email) {
 
 export async function confirmEmailPasswordUser() {
   const urlParams = new URLSearchParams(window.location.search);
+
   const token = urlParams.get("token");
   const tokenId = urlParams.get("tokenId");
+  debugger
   const emailPasswordAuth = getEmailPasswordClient();
   return await emailPasswordAuth.confirmUser(token, tokenId);
 }

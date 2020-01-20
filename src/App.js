@@ -12,6 +12,7 @@ import { StitchAuthProvider, useStitchAuth } from "./context/StitchAuth";
 import Nav from "./components/Nav";
 import Profile from "./components/Profile";
 import { Container } from "reactstrap";
+import ConfirmEmail from "./components/ConfirmEmail";
 
 const AppUi = () => {
   const { isLoggedIn } = useStitchAuth();
@@ -28,7 +29,7 @@ const AppUi = () => {
             <Switch>
               <Route exact path="/">
                 <Home />
-              </Route>
+              </Route>{" "}
               <Route exact path="/babies">
                 <Babies />
               </Route>
@@ -49,7 +50,14 @@ const AppUi = () => {
               </Route>
             </Switch>
           ) : (
+
+            <>
             <Login />
+
+            <Route path={"/confirmemail"}>
+            <ConfirmEmail />
+            </Route>
+            </>
           )}
         </Container>
       </main>
