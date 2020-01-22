@@ -29,7 +29,7 @@ export default () => {
           {babyBetsState &&
             babyBetsState.map(babybet => (
               <tr key={JSON.stringify(babybet._id)}>
-                <td>Anonymous</td>
+                <td>{babybet.betBy}</td>
                 <td>{babybet.babyName}</td>
                 <td>{babybet.gender}</td>
                 <td>{babybet.weight}</td>

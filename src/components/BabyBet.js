@@ -39,6 +39,7 @@ export default () => {
   const handleSubmit = e => {
     e.preventDefault();
     const babyBetData = {
+      betBy: currentUser.customData.firstName || currentUser.profile.firstName,
       babyId: new BSON.ObjectId(parentsId.attributes.value),
       babyName: babyName.attributes.value,
       gender: gender.attributes.value,
