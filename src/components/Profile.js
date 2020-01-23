@@ -3,6 +3,8 @@ import { useStitchAuth } from "../context/StitchAuth";
 import { Container, Form, FormGroup, Input, Label } from "reactstrap";
 import useFormInput from "../hooks/useFormInput";
 import styled from '@emotion/styled'
+import Select from 'react-select'
+import useBabies from "../hooks/useBabies";
 
 const InputStyled = styled(Input)({
   width: "400px",
@@ -11,17 +13,47 @@ const InputStyled = styled(Input)({
   }
 });
 
+const SelectStyled = styled(Select)({
+  width: "400px",
+  "@media (max-width: 430px)": {
+    width: "260px"
+  }
+});
+
+const customSelectStyle = {
+  option: (provided ) => ({
+    ...provided,
+    fontSize: '0.85rem',
+    borderBottom: '1px dotted pink',
+    color: '#495057',
+  }),
+  label: (provided) => ({
+    ...provided,
+    fontSize: '0.3rem',
+  }),
+  value: (provided) => ({
+    ...provided,
+    fontSize: '0.3rem',
+  })
+}
+
 export default () => {
-  const { isLoggedIn, currentUser : { customData, profile } } = useStitchAuth();
+  const { isLoggedIn, currentUser } = useStitchAuth();
+  const { customData, profile } = currentUser
+  const { babiesState } = useBabies(currentUser.id);
   const firstNameUser = useFormInput('first name', customData.firstName || profile.firstName )
   const lastNameUser = useFormInput('last name', customData.lastName || profile.lastName)
   const genderUser = useFormInput('ouder', '')
  console.log(customData)
-  debugger
+ console.log('babiesState', babiesState)
+
+ const babyOptions = babiesState && babiesState.map(({ _id, parents}) => ({ value: String(_id), label: parents}))
+ console.log('babyOptions', babyOptions) 
+ debugger
   return (
     <>
       {isLoggedIn && (
-        <Container fluid={false}>
+        <Container fluid={false} style={{ display: "flex", justifyContent: "center" }}>
           <Form onSubmit={''}>
 
             <FormGroup>
@@ -54,7 +86,7 @@ export default () => {
                     value="father"
                     checked={genderUser.attributes.value === "father"}
                   />
-                  Boy
+                  Male
                 </Label>
               </FormGroup>
               <FormGroup check>
@@ -66,10 +98,23 @@ export default () => {
                     value="mother"
                     checked={genderUser.attributes.value === "mother"}
                   />
-                  Mother
+                  Female
                 </Label>
               </FormGroup>
             </FormGroup>
+
+            <FormGroup>
+        <Label for="exampleSelectMulti">I would love a babycard from..</Label>
+        <SelectStyled
+        styles={customSelectStyle}
+        // onChange={this.handleChange}
+        options={ babyOptions || []}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        isMulti
+        defaultMenuIsOpen={true}
+      />
+      </FormGroup>
 
             <InputStyled type="submit" value="Submit" />
           </Form>

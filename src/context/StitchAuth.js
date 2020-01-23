@@ -31,6 +31,7 @@ export const StitchAuthProvider = ({ children }) => {
   useEffect(() => {
     const authListener = {
       onUserLoggedIn: (auth, loggedInUser) => {
+        debugger
         if (loggedInUser) {
           setAuthState(authState => ({
             ...authState,
@@ -39,7 +40,7 @@ export const StitchAuthProvider = ({ children }) => {
           }));
           console.log("authState", authState);
           console.log("currentUser", loggedInUser);
-          if (!loggedInUser.customData.id) {
+          if (!loggedInUser.customData._id) {
             try {
               users.insertOne({
                 owner_id: loggedInUser.id,
@@ -48,7 +49,7 @@ export const StitchAuthProvider = ({ children }) => {
             } catch (error) {
               console.error("aaaaah Ik fucked up!", error);
             }
-            console.log(loggedInUser.customData);
+            console.log('loggedInUser.customData', loggedInUser.customData);
           }
         }
       },
