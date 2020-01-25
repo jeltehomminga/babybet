@@ -51,7 +51,7 @@ export default () => {
 
   return (
     <Container style={{ display: "flex", justifyContent: "center" }}>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} >
         <FormGroup>
           <Label>Parents</Label>
           <InputStyled type="select" {...parentsId.attributes}>

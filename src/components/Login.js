@@ -5,7 +5,7 @@ import {
   loginEmailPassword,
   registerEmailPasswordUser,
   resendConfirmationEmail,
-  confirmEmailPasswordUser
+  // confirmEmailPasswordUser
 } from "./../stitch/authentication";
 import { toast } from 'react-toastify'
 
