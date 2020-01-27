@@ -34,7 +34,12 @@ export default () => {
                   to={`babybets/newbet/${baby._id}`}
                   style={{ color: "white" }}
                 >
-                  Baby Guess!
+                  {
+
+                  currentUser?.customData?.bets?.find(
+                    bet => bet.babyId.$oid === baby._id.toString())
+                    ? "My Guess"
+                    : "Baby Guess"}
                 </Link>
               </td>
             </tr>

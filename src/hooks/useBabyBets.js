@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { babybets } from "../stitch/mongodb";
+import { babybets, users } from "../stitch/mongodb";
 
 const useBabyBets = userId => {
   const [babyBetsState, setBabyBetsState] = useState(null);
@@ -23,7 +23,19 @@ const useBabyBets = userId => {
     setErrorMessage(null);
     const babybet = { ...babyBetsData, owner_id: userId };
     try {
-      await babybets.insertOne(babybet);
+      const { insertedId } = await babybets.insertOne(babybet);
+      const userUpdate = {
+        "$push": {
+          "bets": {
+            "babyId": babyBetsData.babyId,
+            "babyBetId": insertedId
+          }
+        }
+      }
+      const updateUserResult = await users.findOneAndUpdate({owner_id: userId}, userUpdate)
+      console.log('updateUserResult', updateUserResult)
+      debugger
+      console.log('result babybet', insertedId)
       setBabyBetsState(babyBetsState => [...babyBetsState, babybet]);
     } catch (error) {
       console.error(error);
